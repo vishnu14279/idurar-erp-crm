@@ -180,6 +180,9 @@ function LoadInvoiceForm({ subTotal = 0, current = null }) {
         <Col className="gutter-row" span={7}>
           <p>{translate('Description')}</p>
         </Col>
+        <Col className="gutter-row" span={7}>
+          <p>{translate('Note')}</p>
+        </Col>
         <Col className="gutter-row" span={3}>
           <p>{translate('Quantity')}</p>{' '}
         </Col>
