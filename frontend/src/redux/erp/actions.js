@@ -102,7 +102,6 @@ export const erp = {
         let data = await request.createSummary({ entity, jsonData });
 
         if (data) {
-
           dispatch({
             type: actionTypes.CURRENT_ITEM,
             payload: data.result,

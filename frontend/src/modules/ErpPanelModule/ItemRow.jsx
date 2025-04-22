@@ -29,8 +29,7 @@ export default function ItemRow({ field, remove, current = null, form }) {
     setLoadingSummary(true);
     try {
       await dispatch(erp.generateSummary({ entity: 'invoice', jsonData: { note: currentNote } })).then((summaryResponse) => {
-        const summaryText = summaryResponse?.summary;
-
+        const summaryText = summaryResponse.data;
         if (summaryText) {
           const existingItems = form.getFieldValue('items') || [];
           const updatedItems = existingItems.map((item, index) =>

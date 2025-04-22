@@ -18,8 +18,7 @@ const createQuery = async (req, res) => {
       notes: formattedNotes,
       createdDate: createdDate
     });
-
-    res.status(201).json(query);
+    res.status(201).json({ success: true, data: query });
   } catch (err) {
     console.error("Create Query Error:", err);
     res.status(500).json({ message: "Failed to create query", error: err.message });

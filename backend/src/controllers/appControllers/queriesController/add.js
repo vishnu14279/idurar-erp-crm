@@ -22,7 +22,9 @@ const addNoteToQuery = async (req, res) => {
     }
 
     await query.save();
-    res.status(200).json({ result: query });
+    // res.status(200).json({ result: query });
+    res.status(200).json({ success: true, data: query });
+
   } catch (err) {
     console.error('Error updating note:', err);
     res.status(500).json({ message: 'Internal server error' });

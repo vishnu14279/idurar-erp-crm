@@ -50,13 +50,12 @@ export default function CreateItem({ config, CreateForm }) {
   const { isLoading, isSuccess, result } = useSelector(selectCreatedQuery);
 
   const [form] = Form.useForm();
-
   useEffect(() => {
     if (isSuccess) {
       form.resetFields();
       dispatch(query.resetAction({ actionType: 'create' }));
       setIsSubmitted(true);
-      setQueryId(result._id);
+      setQueryId(result.data._id);
       // navigate(`/${entity.toLowerCase()}/read/${result._id}`);
     }
     return () => { };
