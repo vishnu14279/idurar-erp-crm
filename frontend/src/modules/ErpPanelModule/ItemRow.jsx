@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Form, Input, InputNumber, Row, Col } from 'antd';
+import { Form, Input, InputNumber, Row, Col, Button, Spin } from 'antd';
 
 import { DeleteOutlined } from '@ant-design/icons';
 import { useMoney, useDate } from '@/settings';
 import calculate from '@/utils/calculate';
+import { BulbOutlined } from '@ant-design/icons';
+import { erp } from '@/redux/erp/actions';
+import { useDispatch } from 'react-redux';
 
-export default function ItemRow({ field, remove, current = null }) {
+export default function ItemRow({ field, remove, current = null, form }) {
   const [totalState, setTotal] = useState(undefined);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
+  const [note, setNote] = useState('');
+  const dispatch = useDispatch();
+  const [loadingSummary, setLoadingSummary] = useState(false);
 
   const money = useMoney();
   const updateQt = (value) => {
@@ -17,7 +23,36 @@ export default function ItemRow({ field, remove, current = null }) {
   const updatePrice = (value) => {
     setPrice(value);
   };
+  const handleSummarize = async () => {
+    const currentNote = form.getFieldValue(['items', field.name, 'note']); // get note from form
+    if (!currentNote) return;
+    setLoadingSummary(true);
+    try {
+      await dispatch(erp.generateSummary({ entity: 'invoice', jsonData: { note: currentNote } })).then((summaryResponse) => {
+        const summaryText = summaryResponse?.summary;
 
+        if (summaryText) {
+          const existingItems = form.getFieldValue('items') || [];
+          const updatedItems = existingItems.map((item, index) =>
+            index === field.name
+              ? { ...item, note: summaryText }
+              : item
+          );
+
+          form.setFieldsValue({
+            items: updatedItems,
+          });
+        } else {
+          console.warn('No summary returned from API');
+        }
+      });;
+
+    } catch (err) {
+      console.error('Error generating summary:', err);
+    } finally {
+      setLoadingSummary(false);
+    }
+  };
   useEffect(() => {
     if (current) {
       // When it accesses the /payment/ endpoint,
@@ -75,11 +110,7 @@ export default function ItemRow({ field, remove, current = null }) {
           <Input placeholder="description Name" />
         </Form.Item>
       </Col>
-      <Col className="gutter-row" span={5}>
-        <Form.Item name={[field.name, 'note']}>
-          <Input placeholder="Note" />
-        </Form.Item>
-      </Col>
+
       <Col className="gutter-row" span={3}>
         <Form.Item name={[field.name, 'quantity']} rules={[{ required: true }]}>
           <InputNumber style={{ width: '100%' }} min={0} onChange={updateQt} />
@@ -115,7 +146,31 @@ export default function ItemRow({ field, remove, current = null }) {
           </Form.Item>
         </Form.Item>
       </Col>
-
+      <Col className="gutter-row" span={20}>
+        <Form.Item name={[field.name, 'note']}>
+          <Input
+            placeholder="Note"
+            suffix={
+              loadingSummary ? (
+                <Spin size="small" />
+              ) : (
+                <BulbOutlined
+                  onClick={handleSummarize}
+                  style={{
+                    color: 'white',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    padding: '4px',
+                    borderRadius: '4px',
+                    backgroundColor: '#339393',
+                  }}
+                  title="Summarize Note with AI"
+                />
+              )
+            }
+          />
+        </Form.Item>
+      </Col>
       <div style={{ position: 'absolute', right: '-20px', top: ' 5px' }}>
         <DeleteOutlined onClick={() => remove(field.name)} />
       </div>

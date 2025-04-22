@@ -38,6 +38,19 @@ const request = {
       return errorHandler(error);
     }
   },
+  createSummary: async ({ entity, jsonData }) => {
+    try {
+      includeToken();
+      const response = await axios.post(entity + '/createSummary', jsonData);
+      successHandler(response, {
+        notifyOnSuccess: true,
+        notifyOnFailed: true,
+      });
+      return response;
+    } catch (error) {
+      return errorHandler(error);
+    }
+  },
   // Query Create
   createQuery: async ({ entity, jsonData }) => {
     try {
