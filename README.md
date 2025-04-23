@@ -22,12 +22,12 @@ This repository contains both the **frontend** and **backend** of the Pente Task
 ```bash
 git clone https://github.com/your-username/idurar-erp-crm.git
 cd idurar-erp-crm
+-------------------------------------------------------------------
 2. Set Up Environment Variables
 Create a .env file inside the backend folder with the following contents:
 
 env
-Copy
-Edit
+
 DATABASE="your_mongodb_uri"
 RESEND_API="your_resend_api"
 OPENAI_API_KEY="your_openai_api_key"
@@ -36,52 +36,52 @@ NODE_ENV="production"
 OPENSSL_CONF="/dev/null"
 PUBLIC_SERVER_FILE="http://localhost:8888/"
 GEMINI_API_KEY="your_gemini_api_key"
+------------------------------------------------------------------------
 3. Install Dependencies
 Install dependencies in both frontend and backend directories:
 
 bash
-Copy
-Edit
-cd backend
-npm install
 
-cd ../frontend
-npm install
+cd backend
+command-> npm install
+
+command-> cd ../frontend
+command-> npm install
+-------------------------------------------------------------------------
 4. Start the Application
 Start both frontend and backend servers:
 
 bash
-Copy
-Edit
+
 # In backend folder
-npm run dev
+command-> npm run dev
 
 # In frontend folder (new terminal)
-npm run dev
+command-> npm run dev
 Your backend server and React frontend should now be running locally.
 
 👤 Create a Default User
 To seed the database with an initial user, run the following command from the backend folder:
-
 bash
-Copy
-Edit
-node Src/setup/setup.js
+
+command-> node Src/setup/setup.js
+-------------------------------------------------------------
 🐳 Docker Deployment Guide
 📦 Backend Docker Setup
 bash
-Copy
-Edit
-cd backend
-docker build -t pente-backend .
-docker run -d -p 8888:8888 --env-file .env pente-backend
+
+command-> cd backend
+command-> docker build -t pente-backend .
+command-> docker run -d -p 8888:8888 --env-file .env pente-backend
+
+--------------------------------------------------------------
 🌐 Frontend Docker Setup
 bash
-Copy
-Edit
-cd frontend
-docker build -t pente-frontend .
-docker run -d -p 3000:3000 pente-frontend
+
+command-> cd frontend
+command-> docker build -t pente-frontend .
+command-> docker run -d -p 3000:3000 pente-frontend
+-------------------------------------------------------------
 ✅ Testing
 Use Postman to test API endpoints.
 
