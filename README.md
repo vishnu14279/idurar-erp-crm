@@ -14,12 +14,13 @@ This repository contains both the **frontend** and **backend** of the Pente Task
 
 ## 🧪 Local Setup (Frontend + Backend)
 
-### 1. Fork the Repository
+
+```bash
+1. Fork the Repository
 
 - Fork the monorepo: [https://github.com/vishnu14279/idurar-erp-crm/](https://github.com/vishnu14279/idurar-erp-crm/)
 - Then clone it locally:
 
-```bash
 git clone https://github.com/your-username/idurar-erp-crm.git
 cd idurar-erp-crm
 -------------------------------------------------------------------
