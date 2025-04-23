@@ -28,8 +28,21 @@ function LoadQueryForm({ current = null, isSubmitted = false, queryId, form, con
       const noteData = {
         text: note.text,
       };
-      dispatch(query.addQueryNotes({ id: queryId, entity, noteData: noteData }));
+      // const data = dispatch(query.addQueryNotes({ id: queryId, entity, noteData: noteData })).unwrap();
+      dispatch(query.addQueryNotes({ id: queryId, entity, noteData: noteData }))
+        .then((res) => {
+          const updatedBackendNotes = res?.data?.notes || [];
+          const match = updatedBackendNotes.find((n) => n.text === note.text);
 
+          if (match?._id) {
+            const updatedNotes = [...notes];
+            updatedNotes[fieldName] = { ...note, _id: match._id };
+            form.setFieldsValue({ notes: updatedNotes });
+          }
+        })
+        .catch((error) => {
+          console.error('Error adding note:', error);
+        });
 
     } catch (error) {
       console.error('Error getting note:', error);
@@ -137,7 +150,7 @@ function LoadQueryForm({ current = null, isSubmitted = false, queryId, form, con
               <label>{translate('Notes')}</label>
 
               {fields.map(({ key, name, ...restField }, index) => (
-                <Row key={key} gutter={12} align="middle">
+                <Row key={key} gutter={12} align="center">
                   <Col span={20}>
                     <Form.Item
                       {...restField}

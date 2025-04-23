@@ -52,7 +52,7 @@ export default function CreateItem({ config, CreateForm }) {
   const [form] = Form.useForm();
   useEffect(() => {
     if (isSuccess) {
-      form.resetFields();
+      // form.resetFields();
       dispatch(query.resetAction({ actionType: 'create' }));
       setIsSubmitted(true);
       setQueryId(result.data._id);

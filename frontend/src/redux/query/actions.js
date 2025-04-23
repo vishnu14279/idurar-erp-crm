@@ -185,6 +185,7 @@ export const query = {
             payload: null,
           });
         }
+        return data;
       },
   deleteQueryNote:
     ({ id, noteId, entity }) =>

@@ -17,7 +17,7 @@ const deleteNoteFromQuery = async (req, res) => {
         query.notes.splice(noteIndex, 1);
         await query.save();
 
-        return res.status(200).json({ message: 'Note deleted successfully', result: query });
+        return res.status(200).json({ success: true, result: query });
     } catch (err) {
         console.error('Error deleting note:', err);
         return res.status(500).json({ message: 'Internal server error' });
